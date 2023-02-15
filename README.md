@@ -1,2 +1,3 @@
-# aviation-bot-dashboard
-Web application created to allow the basic settings of Aviation Bot to be changed 
+# Aviation Bot Dashboard
+
+© 2022 Paweł Sumara. All rights reserved. No use and modification without the express permission of the author.
