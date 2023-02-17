@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-const mysql = require('mysql');
+// const mysql = require('mysql');
 
 const publicPath = path.join('./client/build');
 
@@ -12,12 +12,14 @@ app.use(express.static(publicPath), routes);
 
 app.listen(7070);
 
-const databasePool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'gradus'
-});
+// const databasePool = mysql.createPool({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'aviationbot'
+// });
 
-routes.get('/login', (req, res) => {
-})
+routes.get('/auth', (req, res) => {
+    // console.log(req.query.access_token);
+    // res.send('Hello World!');
+});
