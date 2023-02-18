@@ -10,14 +10,29 @@ function loginButtonClicked() {
   window.location.href = "https://discord.com/api/oauth2/authorize?client_id=1038232661900152912&redirect_uri=http%3A%2F%2Flocalhost%3A7070%2Fresponse%2Fauth&response_type=code&scope=identify%20guilds";
 }
 
-function Denied() {
+function AlertOutput(props) {
+  const state = props.state;
+
+  let severity = "success";
+  let info;
+
   let [open, setOpen] = React.useState(true);
+  
+  if (state === "denied") { 
+    severity = "error"; 
+    info = "Something went wrong, please try again."
+  }
+
+  if (state === "sessionclosed") { 
+    severity = "info"; 
+    info = "Your session has closed, please login again."
+  }
 
   return (
-    <div className="info--denied">
-      <Snackbar open={open} onClose={() => setOpen(false)} autoHideDuration={3000}>
-        <Alert severity="error" sx={{ width: '100%' }}>
-          Login failed, please try again!
+    <div className="info">
+      <Snackbar open={open} onClose={() => setOpen(false)} autoHideDuration={5000} anchorOrigin={{vertical: 'top', horizontal: 'center'}}>
+        <Alert severity={severity} sx={{ width: '100%' }}>
+          {info}
         </Alert>
       </Snackbar>
     </div>
@@ -44,7 +59,8 @@ function Home() {
           </Button>
         </center>
 
-        {state === "denied" ? <Denied /> : null}
+        {state === "denied" ? <AlertOutput state="denied" /> : null}
+        {state === "sessionclosed" ? <AlertOutput state="sessionclosed" /> : null}
       </div>
     </div>
   );

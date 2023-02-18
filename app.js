@@ -47,17 +47,28 @@ app.get("/response/auth", async (req, res) => {
 
           sessions[id] = uniqueToken;
 
-          // setTimeout(() => {
-          //   sessions[id] = undefined;
-          // }, 60000);
+          setTimeout(() => {
+             sessions[id] = undefined;
+           }, 300 * 1000); // 5 minutes
 
           res.cookie("client_id", id);
           res.cookie("unique_token", uniqueToken);
 
           res.redirect("/dashboard");
-        });
+        }
+      );
     } catch (err) {
       res.redirect("/response/denied");
+    }
+  }
+});
+
+app.get("/response/sessions", (req, res) => {
+  if (req.query.client_id && req.query.unique_token) {
+    if (sessions[req.query.client_id] === req.query.unique_token) {
+      res.send(true);
+    } else {
+      res.send(false);
     }
   }
 });
