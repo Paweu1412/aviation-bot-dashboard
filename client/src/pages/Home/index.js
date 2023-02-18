@@ -25,7 +25,7 @@ function AlertOutput(props) {
 
   if (state === "sessionclosed") { 
     severity = "info"; 
-    info = "Your session has closed, please login again."
+    info = "Your session has been closed, please login again."
   }
 
   return (
