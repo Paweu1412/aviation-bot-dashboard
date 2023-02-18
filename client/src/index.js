@@ -13,9 +13,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/denied" element={<Home response='denied' />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/response/:state" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { Button, Snackbar, Alert } from "@mui/material";
 
 import "./index.css";
@@ -6,13 +7,15 @@ import "./index.css";
 import logo from "../../images/face.png";
 
 function loginButtonClicked() {
-  window.location.href = "https://discord.com/api/oauth2/authorize?client_id=1038232661900152912&redirect_uri=http%3A%2F%2Flocalhost%3A7070%2Fauth&response_type=token&scope=identify%20guilds";
+  window.location.href = "https://discord.com/api/oauth2/authorize?client_id=1038232661900152912&redirect_uri=http%3A%2F%2Flocalhost%3A7070%2Fresponse%2Fauth&response_type=code&scope=identify%20guilds";
 }
 
 function Denied() {
+  let [open, setOpen] = React.useState(true);
+
   return (
     <div className="info--denied">
-      <Snackbar open='true' autoHideDuration={2000}>
+      <Snackbar open={open} onClose={() => setOpen(false)} autoHideDuration={3000}>
         <Alert severity="error" sx={{ width: '100%' }}>
           Login failed, please try again!
         </Alert>
@@ -21,7 +24,9 @@ function Denied() {
   )
 }
 
-function Home(props) {
+function Home() {
+  const { state } = useParams();
+
   return (
     <div className="container--general">
       <div className="container--window">
@@ -39,7 +44,7 @@ function Home(props) {
           </Button>
         </center>
 
-        {props.response === "denied" ? <Denied /> : null}
+        {state === "denied" ? <Denied /> : null}
       </div>
     </div>
   );
