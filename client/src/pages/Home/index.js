@@ -13,20 +13,10 @@ function loginButtonClicked() {
 function AlertOutput(props) {
   const state = props.state;
 
-  let severity = "success";
-  let info;
-
   let [open, setOpen] = React.useState(true);
   
-  if (state === "denied") { 
-    severity = "error"; 
-    info = "Something went wrong, please try again."
-  }
-
-  if (state === "sessionclosed") { 
-    severity = "info"; 
-    info = "Your session has been closed, please login again."
-  }
+  let severity = (state === "denied" ? "error" : "info");
+  let info = (severity === "error" ? "Something went wrong, please try again." : "Your session has been closed, please login again.")
 
   return (
     <div className="info">

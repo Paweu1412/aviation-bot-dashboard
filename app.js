@@ -34,6 +34,8 @@ app.get("/response/auth", async (req, res) => {
         }
       );
 
+      let { token_type, access_token } = response.data;
+
       fetch("https://discord.com/api/users/@me", {
         headers: {
           authorization: `${response.data.token_type} ${response.data.access_token}`,
@@ -41,22 +43,25 @@ app.get("/response/auth", async (req, res) => {
       })
         .then((res) => res.json())
         .then((response) => {
-          const { id } = response;
+          const { id, username, discriminator } = response;
 
           const uniqueToken = uuidv4();
 
           sessions[id] = uniqueToken;
 
           setTimeout(() => {
-             sessions[id] = undefined;
-           }, 300 * 1000); // 5 minutes
+            sessions[id] = undefined;
+          }, 300 * 1000); // 5 minutes
 
+          res.cookie("client_username", username);
+          res.cookie("client_discriminator", discriminator);
           res.cookie("client_id", id);
           res.cookie("unique_token", uniqueToken);
+          res.cookie("token_type", token_type);
+          res.cookie("access_token", access_token);
 
           res.redirect("/dashboard");
-        }
-      );
+        });
     } catch (err) {
       res.redirect("/response/denied");
     }
