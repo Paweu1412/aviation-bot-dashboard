@@ -47,7 +47,7 @@ app.get("/response/auth", async (req, res) => {
           client_secret: process.env.CLIENT_SECRET,
           grant_type: "authorization_code",
           code: code,
-          redirect_uri: "http://localhost:7070/response/auth",
+          redirect_uri: `http://${process.env.SERVER_IP}:${process.env.SERVER_PORT}/response/auth`,
         },
         {
           headers: {
