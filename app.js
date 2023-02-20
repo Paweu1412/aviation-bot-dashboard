@@ -25,11 +25,8 @@ let databasePool = mysql.createPool({
 });
 
 app.get("/response/language", (req, res) => {
-  console.log(req.query.client_id, req.query.unique_token, req.query.guild_id, req.query.language);
   if (req.query.client_id && req.query.unique_token && req.query.guild_id && req.query.language) {
-    console.log(2);
     if (sessions[req.query.client_id] === req.query.unique_token) {
-      console.log(3);
       databasePool.query('UPDATE `languages` SET `language`=? WHERE `id`=?', [req.query.language, req.query.guild_id], (err, result) => {
         return res.send(true);
       });
