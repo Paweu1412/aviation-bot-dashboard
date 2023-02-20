@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 
 import Home from "./pages/Home";
-import Dashboard from "./pages/Dashboard";
+import Dashboard, { Settings } from "./pages/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -13,8 +13,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/response/:state" element={<Home />} />
+        <Route path="/response" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/:page" element={<Settings/>} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
@@ -22,7 +23,5 @@ export default function App() {
 }
 
 root.render(
-  <div className="container">
-    <App />
-  </div>
+  <App />
 );

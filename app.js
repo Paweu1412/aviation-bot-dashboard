@@ -5,6 +5,8 @@ const app = express();
 const axios = require("axios");
 const cookieParser = require("cookie-parser");
 const uuidv4 = require("uuid").v4;
+const mysql = require("mysql");
+const bodyParser = require("body-parser");
 
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(cookieParser());
@@ -13,6 +15,29 @@ app.listen(7070);
 
 let sessions = [];
 let response;
+
+let databasePool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+});
+
+app.get("/response/language", (req, res) => {
+  console.log(req.query.client_id, req.query.unique_token, req.query.guild_id, req.query.language);
+  if (req.query.client_id && req.query.unique_token && req.query.guild_id && req.query.language) {
+    console.log(2);
+    if (sessions[req.query.client_id] === req.query.unique_token) {
+      console.log(3);
+      databasePool.query('UPDATE `languages` SET `language`=? WHERE `id`=?', [req.query.language, req.query.guild_id], (err, result) => {
+        return res.send(true);
+      });
+    } else {
+      return res.send(false);
+    }
+  }
+});
 
 app.get("/response/auth", async (req, res) => {
   const { code } = req.query;
@@ -63,7 +88,7 @@ app.get("/response/auth", async (req, res) => {
           res.redirect("/dashboard");
         });
     } catch (err) {
-      res.redirect("/response/denied");
+      res.redirect("/response?state=denied");
     }
   }
 });

@@ -4,24 +4,3 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
 }
-
-.container {
-  min-height: 100vh;
-  position: relative;
-  background-image: url('./images/flightpaths.png'), linear-gradient(-45deg, #0A2647, #144272, #205295, #2C74B3);
-  background-repeat: no-repeat;
-  background-size: cover;
-  animation: gradient 50s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}

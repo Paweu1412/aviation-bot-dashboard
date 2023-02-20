@@ -1,6 +1,7 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Button, Snackbar, Alert } from "@mui/material";
+import queryString from "query-string";
 
 import "./index.css";
 
@@ -30,27 +31,31 @@ function AlertOutput(props) {
 }
 
 function Home() {
-  const { state } = useParams();
+  const location = useLocation();
+
+  const state = queryString.parse(location.search).state;
 
   return (
-    <div className="container--general">
-      <div className="container--window">
-        <center>
-          <img src={logo} alt="logo"></img>
-          <h1>Aviation Bot Dashboard</h1>
+    <div className="container">
+      <div className="container--general">
+        <div className="container--window">
+          <center>
+            <img src={logo} alt="logo"></img>
+            <h1>Aviation Bot Dashboard</h1>
 
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: "20px" }}
-            onClick={loginButtonClicked}
-          >
-            LOGIN WITH DISCORD
-          </Button>
-        </center>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ marginTop: "20px" }}
+              onClick={loginButtonClicked}
+            >
+              LOGIN WITH DISCORD
+            </Button>
+          </center>
 
-        {state === "denied" ? <AlertOutput state="denied" /> : null}
-        {state === "sessionclosed" ? <AlertOutput state="sessionclosed" /> : null}
+          {state === "denied" ? <AlertOutput state="denied" /> : null}
+          {state === "session_closed" ? <AlertOutput state="sessionclosed" /> : null}
+        </div>
       </div>
     </div>
   );
